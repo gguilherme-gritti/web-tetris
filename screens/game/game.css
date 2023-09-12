@@ -1,0 +1,38 @@
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-content {
+    height: 50vh;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    background-color: #fff;
+}
+
+.game-nav {
+    height: 120px;
+    background-color: #252627;
+}
+
+.game-nav h3 {
+    color: #f35587;
+    font-family: "Arcade" !important;
+    letter-spacing: 2px;
+}
+
+.game-nav p {
+    color: #fff;
+    letter-spacing: 2px;
+    font-size: 24px;
+    font-family: "Arcade" !important;
+    text-align: center;
+
+    margin-top: 10px;
+}
+
+.game-area {
+    background-image: url("../../assets/img/tetris.jpg");
+    height: 100%;
+}
