@@ -1,0 +1,103 @@
+.ranking-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 120px;
+}
+
+.ranking-content {
+    height: auto;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    background-color: #fff;
+}
+
+.ranking-title {
+    height: 25vh;
+
+    padding: 3.5rem;
+}
+
+.ranking-title img {
+    width: 90%;
+    height: 100%;
+}
+
+.ranking-title h2 {
+    font-size: 3.2rem;
+
+    text-align: center;
+
+    text-transform: uppercase;
+    letter-spacing: 2px;
+
+    margin-top: 1.5rem;
+
+    font-family: 'Bebas Neue', sans-serif !important;
+}
+
+.ranking-body {
+    padding: 3.5rem;
+    height: 45vh;
+}
+
+.ranking-body h3 {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.ranking-number {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.ranking-number h2 {
+    font-family: "Arcade" !important;
+    font-size: 2rem;
+    text-align: center;
+
+    padding: 10px;
+}
+
+.ranking-players {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.ranking-card {
+    border-radius: 8px;
+
+    background: linear-gradient(135deg, #f75959 0%, #f35587 100%);
+
+    padding: 12px;
+    display: flex;
+    gap: 25px;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.ranking-card p {
+    font-family: "Arcade" !important;
+    font-size: 0.925rem;
+    color: white;
+}
+
+.ranking-card svg {
+    width: 35px;
+    height: 35px;
+
+    color: #fff;
+}
+
+.mt {
+    margin-top: 60px;
+}

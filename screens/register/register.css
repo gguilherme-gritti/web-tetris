@@ -1,0 +1,17 @@
+.register-content {
+    padding: 2rem;
+}
+
+.register-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.register-content h3 {
+    font-size: 1.75rem;
+    font-weight: 300;
+    margin-bottom: 2rem;
+
+    text-align: center;
+}
