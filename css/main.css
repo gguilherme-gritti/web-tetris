@@ -158,8 +158,6 @@ form input:focus {
 
     height: 100%;
 
-    flex: 1;
-
     text-align: center;
     text-decoration: none;
 
@@ -174,6 +172,7 @@ form input:focus {
 
 .main-nav li {
     height: 100%;
+    flex-grow: 1;
 }
 
 .main-nav ul.navbar li a:hover {
