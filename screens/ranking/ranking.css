@@ -3,13 +3,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    padding: 120px;
-
-    margin-top: -90px;
 }
 
 .ranking-content {
+    margin-top: 30px;
+    margin-bottom: 30px;
     height: auto;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     background-color: #fff;
@@ -41,7 +39,6 @@
 
 .ranking-body {
     padding: 3.5rem;
-    height: 45vh;
 }
 
 .ranking-body h3 {
