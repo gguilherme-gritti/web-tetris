@@ -1,25 +1,26 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+
+    <link rel="stylesheet" href="index.css">
+    <link rel="icon" type="image/x-icon" href="resources/logo.ico">
+
     <!-- BOOTSTRAP -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <title>Tetris | Jogar</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-
-    <!-- Globals -->
-    <link rel='stylesheet' type='text/css' media='screen' href='../../css/main.css'>
-    <link rel='stylesheet' type='text/css' media='screen' href='../../css/reset.css'>
-
-    <link rel='stylesheet' type='text/css' media='screen' href='game.css'>
 
     <!-- BOOTSTRAP -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
+
+    <link rel='stylesheet' type='text/css' media='screen' href='game.css'>
+
+    <script src="../../js/tetris.js"></script>
+
+    <!-- Globals -->
+    <link rel='stylesheet' type='text/css' media='screen' href='../../css/main.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../../css/reset.css'>
 
 </head>
 
@@ -44,24 +45,28 @@
                 <div class="row p-4 h-100">
                     <div class="col-sm-4 align-all-center flex-column">
                         <h3>Pontuacao</h3>
-                        <p>1642</p>
+                        <p id="score">1642</p>
                     </div>
                     <div class="col align-all-center">
                         <button class="standard-button w-100">Iniciar</button>
                     </div>
                     <div class="col-sm-4 align-all-center flex-column">
                         <h3>Seu Recorde</h3>
-                        <p>2345</p>
+                        <p id="lines">2345</p>
                     </div>
                 </div>
             </div>
-            <div class="game-area">
-
+            <div class="align-all-center">
+                <div id="wrapper">
+                    <div id="game-container">
+                        <img src="../../assets/game/background.png" id="background">
+                        <canvas id="game-canvas"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
 
     </div>
 </body>
-
 
 </html>
