@@ -50,7 +50,6 @@ window.onload = () => {
         this.img.onload = () => this.draw();
         return;
       }
-      // Print the current tetromine
       for (let i = 0; i < this.length; ++i) {
         ctx.drawImage(
           this.img,
@@ -131,12 +130,10 @@ window.onload = () => {
     ctx.canvas.width = FIELD_WIDTH * Aux.BLOCK_SIZE;
     ctx.canvas.height = FIELD_HEIGHT * Aux.BLOCK_SIZE;
 
-    // Scale background
     const scale = Aux.BLOCK_SIZE / 13.83333333333;
     background.style.width = scale * 166;
     background.style.height = scale * 304;
 
-    // Offset each block to the middle of the table width
     const middle = Math.floor(FIELD_WIDTH / 2);
     for (const t of COMPONENTS) t.x = t.x.map((x) => x + middle);
 
@@ -145,7 +142,6 @@ window.onload = () => {
   })();
 
   function reset() {
-    // Make false all blocks
     FIELD.forEach(
       (_, y) =>
         (FIELD[y] = Array.from({ length: FIELD_WIDTH }).map((_) => false))
@@ -160,7 +156,7 @@ window.onload = () => {
 
   function draw() {
     if (component) {
-      // Collision?
+      // Colisao
       if (
         component.collides((i) => ({
           x: component.x[i],
@@ -168,10 +164,8 @@ window.onload = () => {
         }))
       ) {
         component.merge();
-        // Prepare for new component
         component = null;
 
-        // Check for completed rows
         let completedRows = 0;
         for (let y = FIELD_HEIGHT - 1; y >= MIN_VALID_ROW; --y)
           if (FIELD[y].every((e) => e !== false)) {
@@ -179,12 +173,11 @@ window.onload = () => {
               FIELD[ay] = [...FIELD[ay - 1]];
 
             ++completedRows;
-            // Keep the same row
             ++y;
           }
 
         if (completedRows) {
-          // Print againt the table
+          // Exibe denovo na linha
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           for (let y = MIN_VALID_ROW; y < FIELD_HEIGHT; ++y) {
             for (let x = 0; x < FIELD_WIDTH; ++x) {
@@ -195,20 +188,18 @@ window.onload = () => {
           score += [40, 100, 300, 1200][completedRows - 1];
           lines += completedRows;
         } else {
-          // Check if player has lost
+          // Verifica se o jogo acabou
           if (FIELD[MIN_VALID_ROW - 1].some((block) => block !== false)) {
             alert("You have lost!");
             reset();
           }
         }
       } else component.update((i) => ++component.y[i]);
-    }
-    // No component failing
-    else {
+    } else {
       scoreLbl.innerText = score;
       linesLbl.innerText = lines;
 
-      // Create random component
+      // Cria um component Random
       component = (({ x, y }, color) => new Aux([...x], [...y], color))(
         COMPONENTS[Math.floor(Math.random() * (COMPONENTS.length - 1))],
         Math.floor(Math.random() * (Aux.COLORS.length - 1))
@@ -220,7 +211,7 @@ window.onload = () => {
     setTimeout(draw, delay);
   }
 
-  // Move
+  // Movimento
   window.onkeydown = (event) => {
     switch (event.key) {
       case "ArrowLeft":
