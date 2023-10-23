@@ -1,4 +1,4 @@
-<html>
+<!DOCTYPE html>
 
 <head>
 
@@ -15,8 +15,6 @@
         crossorigin="anonymous"></script>
 
     <link rel='stylesheet' type='text/css' media='screen' href='game.css'>
-
-    <script src="../../js/tetris.js"></script>
 
     <!-- Globals -->
     <link rel='stylesheet' type='text/css' media='screen' href='../../css/main.css'>
@@ -48,7 +46,8 @@
                         <p id="score">1642</p>
                     </div>
                     <div class="col align-all-center">
-                        <button class="standard-button w-100">Iniciar</button>
+                        <button id="playbutton" onclick="playButtonClicked();"
+                            class="standard-button w-100">Iniciar</button>
                     </div>
                     <div class="col-sm-4 align-all-center flex-column">
                         <h3>Seu Recorde</h3>
@@ -59,14 +58,18 @@
             <div class="align-all-center">
                 <div id="wrapper">
                     <div id="game-container">
-                        <img src="../../assets/game/background.png" id="background">
-                        <canvas id="game-canvas"></canvas>
+                        <canvas class="canvas" width='300' height='600'></canvas>
+                        <!-- <img src="../../assets/game/background.png" id="background">
+                        <canvas id="game-canvas"></canvas> -->
                     </div>
                 </div>
             </div>
         </div>
 
     </div>
+
+    <script src="../../js/new.js"></script>
+
 </body>
 
 </html>
