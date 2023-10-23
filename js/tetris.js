@@ -18,6 +18,8 @@ var shapes = [
 ];
 var colors = ["cyan", "orange", "blue", "yellow", "red", "green", "purple"];
 
+let mirror = false;
+
 // creates a new 4x4 shape in global variable 'current'
 // 4x4 so as to cover the size when the shape is rotated
 function newShape() {
@@ -109,7 +111,6 @@ function updateScore(linesCleared) {
 }
 
 function mirrorBoard() {
-  // Espelhe todas as peças no tabuleiro
   for (let y = 0; y < ROWS; ++y) {
     for (let x = 0; x < COLS / 2; ++x) {
       const temp = board[y][x];
@@ -117,6 +118,8 @@ function mirrorBoard() {
       board[y][COLS - 1 - x] = temp;
     }
   }
+
+  mirror = !mirror;
 }
 
 // check if any lines are filled and clear them
@@ -153,34 +156,66 @@ function clearLines() {
 }
 
 function keyPress(key) {
-  switch (key) {
-    case "left":
-      if (valid(-1)) {
-        --currentX;
-      }
-      break;
-    case "right":
-      if (valid(1)) {
-        ++currentX;
-      }
-      break;
-    case "down":
-      if (valid(0, 1)) {
-        ++currentY;
-      }
-      break;
-    case "rotate":
-      var rotated = rotate(current);
-      if (valid(0, 0, rotated)) {
-        current = rotated;
-      }
-      break;
-    case "drop":
-      while (valid(0, 1)) {
-        ++currentY;
-      }
-      tick();
-      break;
+  if (mirror) {
+    switch (key) {
+      case "left":
+        if (valid(1)) {
+          ++currentX;
+        }
+        break;
+      case "right":
+        if (valid(-1)) {
+          --currentX;
+        }
+        break;
+      case "down":
+        var rotated = rotate(current);
+        if (valid(0, 0, rotated)) {
+          current = rotated;
+        }
+        break;
+      case "rotate":
+        if (valid(0, 1)) {
+          ++currentY;
+        }
+        break;
+      case "drop":
+        while (valid(0, 1)) {
+          ++currentY;
+        }
+        tick();
+        break;
+    }
+  } else {
+    switch (key) {
+      case "left":
+        if (valid(-1)) {
+          --currentX;
+        }
+        break;
+      case "right":
+        if (valid(1)) {
+          ++currentX;
+        }
+        break;
+      case "down":
+        if (valid(0, 1)) {
+          ++currentY;
+        }
+        break;
+      case "rotate":
+        var rotated = rotate(current);
+        if (valid(0, 0, rotated)) {
+          current = rotated;
+        }
+        break;
+      case "drop":
+        while (valid(0, 1)) {
+          ++currentY;
+        }
+        tick();
+        break;
+    }
   }
 }
 
