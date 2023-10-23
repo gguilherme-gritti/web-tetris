@@ -185,7 +185,12 @@ window.onload = () => {
             }
           }
 
-          score += [40, 100, 300, 1200][completedRows - 1];
+          if (completedRows > 1) {
+            score += 10 * completedRows;
+          } else {
+            score += 10;
+          }
+
           lines += completedRows;
         } else {
           // Verifica se o jogo acabou
