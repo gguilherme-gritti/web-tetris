@@ -1,251 +1,235 @@
-window.onload = () => {
-  const background = document.getElementById("background"),
-    scoreLbl = document.getElementById("score"),
-    linesLbl = document.getElementById("lines"),
-    canvas = document.getElementById("game-canvas"),
-    ctx = canvas.getContext("2d");
+var COLS = 10,
+  ROWS = 20;
+var board = [];
+var lose;
+var interval;
+var intervalRender;
+var current; // current moving shape
+var currentX, currentY; // position of current shape
+var freezed; // is current shape settled on the board?
+var shapes = [
+  [1, 1, 1, 1],
+  [1, 1, 1, 0, 1],
+  [1, 1, 1, 0, 0, 0, 1],
+  [1, 1, 0, 0, 1, 1],
+  [1, 1, 0, 0, 0, 1, 1],
+  [0, 1, 1, 0, 1, 1],
+  [0, 1, 0, 0, 1, 1, 1],
+];
+var colors = ["cyan", "orange", "blue", "yellow", "red", "green", "purple"];
 
-  class Aux {
-    static COLORS = [
-      "blue",
-      "green",
-      "yellow",
-      "red",
-      "orange",
-      "light-blue",
-      "purple",
-    ];
-    static BLOCK_SIZE = 28;
-    static DELAY = 400;
-    static DELAY_INCREASED = 5;
+// creates a new 4x4 shape in global variable 'current'
+// 4x4 so as to cover the size when the shape is rotated
+function newShape() {
+  var id = Math.floor(Math.random() * shapes.length);
+  var shape = shapes[id]; // maintain id for color filling
 
-    constructor(xs, ys, color = null) {
-      this.x = xs;
-      this.y = ys;
-      this.length = xs.length;
-      if (color !== null) {
-        this.color = color;
-        this.img = new Image();
-        this.img.src = `../../assets/game/${Aux.COLORS[color]}.jpg`;
+  current = [];
+  for (var y = 0; y < 4; ++y) {
+    current[y] = [];
+    for (var x = 0; x < 4; ++x) {
+      var i = 4 * y + x;
+      if (typeof shape[i] != "undefined" && shape[i]) {
+        current[y][x] = id + 1;
+      } else {
+        current[y][x] = 0;
       }
     }
+  }
 
-    update(updFunc) {
-      for (let i = 0; i < this.length; ++i) {
-        ctx.clearRect(
-          this.x[i] * Aux.BLOCK_SIZE,
-          this.y[i] * Aux.BLOCK_SIZE,
-          Aux.BLOCK_SIZE,
-          Aux.BLOCK_SIZE
-        );
+  // new shape starts to move
+  freezed = false;
+  // position where the shape will evolve
+  currentX = 5;
+  currentY = 0;
+}
 
-        updFunc(i);
-      }
-
-      this.draw();
+// clears the board
+function init() {
+  for (var y = 0; y < ROWS; ++y) {
+    board[y] = [];
+    for (var x = 0; x < COLS; ++x) {
+      board[y][x] = 0;
     }
+  }
+}
 
-    draw() {
-      if (!this.img.complete) {
-        this.img.onload = () => this.draw();
-        return;
-      }
-      for (let i = 0; i < this.length; ++i) {
-        ctx.drawImage(
-          this.img,
-          this.x[i] * Aux.BLOCK_SIZE,
-          this.y[i] * Aux.BLOCK_SIZE,
-          Aux.BLOCK_SIZE,
-          Aux.BLOCK_SIZE
-        );
-      }
-    }
-
-    collides(checkFunc) {
-      for (let i = 0; i < this.length; ++i) {
-        const { x, y } = checkFunc(i);
-        if (
-          x < 0 ||
-          x >= FIELD_WIDTH ||
-          y < 0 ||
-          y >= FIELD_HEIGHT ||
-          FIELD[y][x] !== false
-        )
-          return true;
-      }
+// keep the element moving down, creating new shapes and clearing lines
+function tick() {
+  if (valid(0, 1)) {
+    ++currentY;
+  }
+  // if the element settled
+  else {
+    freeze();
+    valid(0, 1);
+    clearLines();
+    if (lose) {
+      clearAllIntervals();
       return false;
     }
+    newShape();
+  }
+}
 
-    merge() {
-      for (let i = 0; i < this.length; ++i) {
-        FIELD[this.y[i]][this.x[i]] = this.color;
-      }
-    }
-
-    rotate() {
-      const maxX = Math.max(...this.x),
-        minX = Math.min(...this.x),
-        minY = Math.min(...this.y),
-        nx = [],
-        ny = [];
-
-      if (
-        !this.collides((i) => {
-          nx.push(maxX + minY - component.y[i]);
-          ny.push(component.x[i] - minX + minY);
-          return { x: nx[i], y: ny[i] };
-        })
-      ) {
-        this.update((i) => {
-          this.x[i] = nx[i];
-          this.y[i] = ny[i];
-        });
+// stop shape at its position and fix it to board
+function freeze() {
+  for (var y = 0; y < 4; ++y) {
+    for (var x = 0; x < 4; ++x) {
+      if (current[y][x]) {
+        board[y + currentY][x + currentX] = current[y][x];
       }
     }
   }
+  freezed = true;
+}
 
-  const FIELD_WIDTH = 10,
-    FIELD_HEIGHT = 20,
-    FIELD = Array.from({ length: FIELD_HEIGHT }),
-    MIN_VALID_ROW = 4,
-    COMPONENTS = [
-      new Aux([0, 0, 0, 0], [0, 1, 2, 3]),
-      new Aux([0, 0, 1, 1], [0, 1, 0, 1]),
-      new Aux([0, 1, 1, 1], [0, 0, 1, 2]),
-      new Aux([0, 0, 0, 1], [0, 1, 2, 0]),
-      new Aux([0, 1, 1, 2], [0, 0, 1, 1]),
-      new Aux([0, 1, 1, 2], [1, 1, 0, 1]),
-      new Aux([0, 1, 1, 2], [1, 1, 0, 0]),
-    ];
-
-  let component = null,
-    delay,
-    score,
-    lines;
-
-  (function setup() {
-    canvas.style.top = Aux.BLOCK_SIZE;
-    canvas.style.left = Aux.BLOCK_SIZE;
-
-    ctx.canvas.width = FIELD_WIDTH * Aux.BLOCK_SIZE;
-    ctx.canvas.height = FIELD_HEIGHT * Aux.BLOCK_SIZE;
-
-    const scale = Aux.BLOCK_SIZE / 13.83333333333;
-    background.style.width = scale * 166;
-    background.style.height = scale * 304;
-
-    const middle = Math.floor(FIELD_WIDTH / 2);
-    for (const t of COMPONENTS) t.x = t.x.map((x) => x + middle);
-
-    reset();
-    draw();
-  })();
-
-  function reset() {
-    FIELD.forEach(
-      (_, y) =>
-        (FIELD[y] = Array.from({ length: FIELD_WIDTH }).map((_) => false))
-    );
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    delay = Aux.DELAY;
-    score = 0;
-    lines = 0;
+// returns rotates the rotated shape 'current' perpendicularly anticlockwise
+function rotate(current) {
+  var newCurrent = [];
+  for (var y = 0; y < 4; ++y) {
+    newCurrent[y] = [];
+    for (var x = 0; x < 4; ++x) {
+      newCurrent[y][x] = current[3 - x][y];
+    }
   }
 
-  function draw() {
-    if (component) {
-      // Colisao
-      if (
-        component.collides((i) => ({
-          x: component.x[i],
-          y: component.y[i] + 1,
-        }))
-      ) {
-        component.merge();
-        component = null;
+  return newCurrent;
+}
 
-        let completedRows = 0;
-        for (let y = FIELD_HEIGHT - 1; y >= MIN_VALID_ROW; --y)
-          if (FIELD[y].every((e) => e !== false)) {
-            for (let ay = y; ay >= MIN_VALID_ROW; --ay)
-              FIELD[ay] = [...FIELD[ay - 1]];
+let score = 0; // Variável de pontuação global
+let lines = 0;
 
-            ++completedRows;
-            ++y;
-          }
+function updateScore(linesCleared) {
+  score += linesCleared * 10;
+  lines++;
 
-        if (completedRows) {
-          // Exibe denovo na linha
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          for (let y = MIN_VALID_ROW; y < FIELD_HEIGHT; ++y) {
-            for (let x = 0; x < FIELD_WIDTH; ++x) {
-              if (FIELD[y][x] !== false) new Aux([x], [y], FIELD[y][x]).draw();
-            }
-          }
+  scoreLbl.innerText = score;
+  linesLbl.innerText = lines;
+}
 
-          if (completedRows > 1) {
-            score += 10 * completedRows;
-          } else {
-            score += 10;
-          }
+function mirrorBoard() {
+  // Espelhe todas as peças no tabuleiro
+  for (let y = 0; y < ROWS; ++y) {
+    for (let x = 0; x < COLS / 2; ++x) {
+      const temp = board[y][x];
+      board[y][x] = board[y][COLS - 1 - x];
+      board[y][COLS - 1 - x] = temp;
+    }
+  }
+}
 
-          lines += completedRows;
-        } else {
-          // Verifica se o jogo acabou
-          if (FIELD[MIN_VALID_ROW - 1].some((block) => block !== false)) {
-            alert("You have lost!");
-            reset();
-          }
+// check if any lines are filled and clear them
+function clearLines() {
+  let linesCleared = 0;
+  for (let y = ROWS - 1; y >= 0; --y) {
+    let rowFilled = true;
+    for (let x = 0; x < COLS; ++x) {
+      if (board[y][x] == 0) {
+        rowFilled = false;
+        break;
+      }
+    }
+    if (rowFilled) {
+      // Remova a linha
+      for (let yy = y; yy > 0; --yy) {
+        for (let x = 0; x < COLS; ++x) {
+          board[yy][x] = board[yy - 1][x];
         }
-      } else component.update((i) => ++component.y[i]);
-    } else {
-      scoreLbl.innerText = score;
-      linesLbl.innerText = lines;
-
-      // Cria um component Random
-      component = (({ x, y }, color) => new Aux([...x], [...y], color))(
-        COMPONENTS[Math.floor(Math.random() * (COMPONENTS.length - 1))],
-        Math.floor(Math.random() * (Aux.COLORS.length - 1))
-      );
-
-      component.draw();
+      }
+      ++y;
+      linesCleared++;
     }
-
-    setTimeout(draw, delay);
   }
 
-  // Movimento
-  window.onkeydown = (event) => {
-    switch (event.key) {
-      case "ArrowLeft":
+  // Atualize a pontuação e espelhe as peças
+  if (linesCleared > 0) {
+    // Atualize a pontuação do jogador
+    updateScore(linesCleared);
+
+    // Espelhe todas as peças no tabuleiro
+    mirrorBoard();
+  }
+}
+
+function keyPress(key) {
+  switch (key) {
+    case "left":
+      if (valid(-1)) {
+        --currentX;
+      }
+      break;
+    case "right":
+      if (valid(1)) {
+        ++currentX;
+      }
+      break;
+    case "down":
+      if (valid(0, 1)) {
+        ++currentY;
+      }
+      break;
+    case "rotate":
+      var rotated = rotate(current);
+      if (valid(0, 0, rotated)) {
+        current = rotated;
+      }
+      break;
+    case "drop":
+      while (valid(0, 1)) {
+        ++currentY;
+      }
+      tick();
+      break;
+  }
+}
+
+// checks if the resulting position of current shape will be feasible
+function valid(offsetX, offsetY, newCurrent) {
+  offsetX = offsetX || 0;
+  offsetY = offsetY || 0;
+  offsetX = currentX + offsetX;
+  offsetY = currentY + offsetY;
+  newCurrent = newCurrent || current;
+
+  for (var y = 0; y < 4; ++y) {
+    for (var x = 0; x < 4; ++x) {
+      if (newCurrent[y][x]) {
         if (
-          !component.collides((i) => ({
-            x: component.x[i] - 1,
-            y: component.y[i],
-          }))
-        )
-          component.update((i) => --component.x[i]);
-        break;
-      case "ArrowRight":
-        if (
-          !component.collides((i) => ({
-            x: component.x[i] + 1,
-            y: component.y[i],
-          }))
-        )
-          component.update((i) => ++component.x[i]);
-        break;
-      case "ArrowDown":
-        delay = Aux.DELAY / Aux.DELAY_INCREASED;
-        break;
-      case " ":
-        component.rotate();
-        break;
+          typeof board[y + offsetY] == "undefined" ||
+          typeof board[y + offsetY][x + offsetX] == "undefined" ||
+          board[y + offsetY][x + offsetX] ||
+          x + offsetX < 0 ||
+          y + offsetY >= ROWS ||
+          x + offsetX >= COLS
+        ) {
+          if (offsetY == 1 && freezed) {
+            lose = true; // lose if the current shape is settled at the top most row
+            document.getElementById("playbutton").disabled = false;
+          }
+          return false;
+        }
+      }
     }
-  };
-  window.onkeyup = (event) => {
-    if (event.key === "ArrowDown") delay = Aux.DELAY;
-  };
-};
+  }
+  return true;
+}
+
+function playButtonClicked() {
+  newGame();
+  document.getElementById("playbutton").disabled = true;
+}
+
+function newGame() {
+  clearAllIntervals();
+  intervalRender = setInterval(render, 30);
+  init();
+  newShape();
+  lose = false;
+  interval = setInterval(tick, 400);
+}
+
+function clearAllIntervals() {
+  clearInterval(interval);
+  clearInterval(intervalRender);
+}
