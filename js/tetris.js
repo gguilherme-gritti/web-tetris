@@ -241,6 +241,8 @@ function valid(offsetX, offsetY, newCurrent) {
           if (offsetY == 1 && freezed) {
             lose = true; // lose if the current shape is settled at the top most row
             document.getElementById("playbutton").disabled = false;
+            stopTimer();
+            alert("O jogo acabou!");
           }
           return false;
         }
@@ -262,6 +264,7 @@ function newGame() {
   newShape();
   lose = false;
   interval = setInterval(tick, 400);
+  startTimer();
 }
 
 function clearAllIntervals() {
