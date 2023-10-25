@@ -114,7 +114,7 @@ let score = 0; // Variável de pontuação global
 let lines = 0;
 
 function updateScore(linesCleared) {
-  score += linesCleared * 10;
+  score += linesCleared * 10 * linesCleared;
   lines++;
 
   scoreLbl.innerText = score;
