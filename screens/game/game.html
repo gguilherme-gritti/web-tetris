@@ -34,7 +34,7 @@
             </div>
         </div>
     </nav>
-    <div class="container-sm game-container h-100">
+    <div class="container-sm game-container">
         <div class="game-content w-100">
             <div class="game-nav">
                 <div class="row p-4 h-100">
@@ -43,8 +43,9 @@
                         <p id="score">0</p>
                     </div>
                     <div class="col align-all-center flex-column">
-                        <button class="standard-button w-100" id="playbutton"
-                            onclick="playButtonClicked();">Iniciar</button>
+                        <!-- data-bs-target="#tabGame" -->
+                        <button id="playbutton" class="standard-button w-100" data-bs-toggle="modal"
+                            data-bs-target="#tabGame">Iniciar</button>
                         <p id="timer">00:00:00</p>
                     </div>
                     <div class="col-sm-4 align-all-center flex-column">
@@ -59,6 +60,32 @@
                         <img src="../../assets/game/background.png" id="background">
                         <canvas id="game-canvas"></canvas>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE TABULEIRO -->
+    <div class="modal fade" id="tabGame" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Escolha do Tabuleiro</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row p-4">
+                        <button class="standard-button " data-bs-dismiss="modal" onclick="playButtonClicked()"> 10 x
+                            20</button>
+                    </div>
+                    <div class="row p-4">
+                        <button class="standard-button " data-bs-dismiss="modal" onclick="playButtonClicked(true)"> 22 x
+                            44</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="outlined-button border" data-bs-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>

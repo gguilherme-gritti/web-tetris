@@ -19,6 +19,11 @@ var W = ctx.canvas.width,
 var BLOCK_W = W / COLS,
   BLOCK_H = H / ROWS;
 
+function setBlocks() {
+  BLOCK_W = W / COLS;
+  BLOCK_H = H / ROWS;
+}
+
 const scale = BLOCK_SIZE / 13.83333333333;
 background.style.width = scale * 166;
 background.style.height = scale * 304;

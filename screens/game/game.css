@@ -1,3 +1,7 @@
+body {
+    height: auto !important;
+}
+
 #wrapper {
     display: inline-block;
     margin: 20px;

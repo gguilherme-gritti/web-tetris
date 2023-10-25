@@ -20,6 +20,17 @@ var colors = ["cyan", "orange", "blue", "yellow", "red", "green", "purple"];
 
 let mirror = false;
 
+function setBoard(big = false) {
+  if (big) {
+    COLS = 22;
+    ROWS = 44;
+  } else {
+    COLS = 10;
+    ROWS = 20;
+  }
+  setBlocks();
+}
+
 // creates a new 4x4 shape in global variable 'current'
 // 4x4 so as to cover the size when the shape is rotated
 function newShape() {
@@ -252,7 +263,8 @@ function valid(offsetX, offsetY, newCurrent) {
   return true;
 }
 
-function playButtonClicked() {
+function playButtonClicked(big = false) {
+  setBoard(big);
   newGame();
   document.getElementById("playbutton").disabled = true;
 }
