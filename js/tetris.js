@@ -17,8 +17,10 @@ var shapes = [
   [0, 1, 0, 0, 1, 1, 1],
 ];
 var colors = ["cyan", "orange", "blue", "yellow", "red", "green", "purple"];
-
+var velocity = 500;
 let mirror = false;
+
+var nivel = 1;
 
 function setBoard(big = false) {
   if (big) {
@@ -156,13 +158,15 @@ function clearLines() {
     }
   }
 
-  // Atualize a pontuação e espelhe as peças
   if (linesCleared > 0) {
-    // Atualize a pontuação do jogador
     updateScore(linesCleared);
-
-    // Espelhe todas as peças no tabuleiro
     mirrorBoard();
+
+    if (score >= nivel * 300) {
+      nivel++;
+      clearInterval(interval);
+      interval = setInterval(tick, velocity - 75);
+    }
   }
 }
 
@@ -275,7 +279,7 @@ function newGame() {
   init();
   newShape();
   lose = false;
-  interval = setInterval(tick, 400);
+  interval = setInterval(tick, velocity);
   startTimer();
 }
 
