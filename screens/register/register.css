@@ -2,7 +2,7 @@
     padding: 2rem;
 }
 
-.register-content form {
+.register-content {
     display: flex;
     flex-direction: column;
     gap: 5px;
