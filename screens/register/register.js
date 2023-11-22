@@ -2,7 +2,9 @@ $(document).ready(function () {
   $("#userForm").submit(function (e) {
     e.preventDefault();
 
-    if ($("#password").val() != $("#confirmPassword").val()) {
+    console.log("salve, mano to ficando maluco");
+
+    if ($("#registerPassword").val() != $("#confirmPassword").val()) {
       Swal.fire({
         title: "Ops!",
         text: "Senhas não Coincidem!",
@@ -16,7 +18,7 @@ $(document).ready(function () {
       completeName: $("#completeName").val(),
       birthDay: formatDate($("#birthDay").val()),
       nickname: $("#nickname").val(),
-      password: $("#password").val(),
+      password: $("#registerPassword").val(),
       about: $("#about").val(),
     };
 
@@ -49,7 +51,7 @@ $(document).ready(function () {
     $("#completeName").val("");
     $("#birthDay").val("");
     $("#nickname").val("");
-    $("#password").val("");
+    $("#registerPassword").val("");
     $("#confirmPassword").val("");
     $("#about").val("");
   }

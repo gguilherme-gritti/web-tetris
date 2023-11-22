@@ -1,4 +1,4 @@
-function formatDate(dataString) {
+function formatDate(dataString = null) {
   var data = new Date(dataString);
 
   var dia = data.getUTCDate();

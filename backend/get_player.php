@@ -4,23 +4,36 @@ include 'connection.php';
 session_start();
 $id = $_SESSION["userId"];
 
-$sql = "SELECT 
-            Player.id,
-            Player.completeName,
-            Player.birthDay,
-            Player.nickname,
-            Player.password,
-            Player.about,
-            MAX(Historic.score) AS highScore,
-                FIND_IN_SET(MAX(Historic.score), GROUP_CONCAT(DISTINCT Historic.score ORDER BY Historic.score DESC)) AS ranking
+$sql = "WITH PlayerAndRank AS (
+            SELECT
+                p.id,
+                p.completeName,
+                p.birthDay,
+                p.nickname,
+                p.password,
+                p.about,
+                h.score,
+                DENSE_RANK() OVER (ORDER BY h.score DESC) AS rank
             FROM
-                Player
+                player p
             LEFT JOIN
-                Historic ON Player.id = Historic.idPlayer
+                Historic h ON p.id = h.idPlayer
+        )
+            SELECT
+                id,
+                completeName,
+                birthDay,
+                nickname,
+                password,
+                about,
+                MAX(score) AS highScore,
+                MAX(rank) AS ranking
+            FROM
+                PlayerAndRank
             WHERE
-                Player.id = $id
+                id = $id 
             GROUP BY
-                Player.id;";
+                id;";
 
 $result = $conn->query($sql);
 

@@ -13,9 +13,17 @@ include '../../backend/valid_authentication.php';
 
     <link rel='stylesheet' type='text/css' media='screen' href='game.css'>
 
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- SWAL -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
     <!-- Globals -->
     <link rel='stylesheet' type='text/css' media='screen' href='../../css/main.css'>
     <link rel='stylesheet' type='text/css' media='screen' href='../../css/reset.css'>
+    <script src="../../js/utils.js"></script>
 
 </head>
 

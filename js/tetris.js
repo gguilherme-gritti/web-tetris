@@ -257,7 +257,7 @@ function valid(offsetX, offsetY, newCurrent) {
             lose = true; // lose if the current shape is settled at the top most row
             document.getElementById("playbutton").disabled = false;
             stopTimer();
-            alert("O jogo acabou!");
+            registerScore();
           }
           return false;
         }
@@ -265,6 +265,45 @@ function valid(offsetX, offsetY, newCurrent) {
     }
   }
   return true;
+}
+
+function registerScore() {
+  var formData = {
+    score: score,
+    date: formatDate(),
+    time: $("#timer").val(),
+  };
+
+  $.ajax({
+    type: "POST",
+    url: "../../backend/create_new_score.php",
+    dataType: "json",
+    data: formData,
+    encode: true,
+  })
+    .done(function (response) {
+      if (response.status === "success") {
+        Swal.fire({
+          title: "Sucesso!",
+          text: response.message,
+          icon: "success",
+        });
+      } else {
+        Swal.fire({
+          title: "Oops!",
+          text: response.message,
+          icon: "warning",
+        });
+      }
+    })
+    .fail(function (error) {
+      console.log(error);
+      Swal.fire({
+        title: "Falha!",
+        text: "Tivemos um problema ao se conectar com o servidor",
+        icon: "error",
+      });
+    });
 }
 
 function playButtonClicked(big = false) {

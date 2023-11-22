@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <?php
 include '../../backend/valid_authentication.php';
+include '../../backend/get_ranking.php';
 ?>
 
 <head>
@@ -23,8 +25,6 @@ include '../../backend/valid_authentication.php';
 
     <!-- SWAL -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script src="./ranking.js"></script>
 
     <!-- BOOTSTRAP -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
@@ -59,48 +59,22 @@ include '../../backend/valid_authentication.php';
             <div class="row ranking-body ">
                 <div class="col-sm-4 ranking-number">
                     <h3>Ranking</h3>
-                    <h2>1</h2>
-                    <h2>2</h2>
-                    <h2>3</h2>
-                    <h2>4</h2>
-                    <h2>5</h2>
+                    <?php foreach ($topRankingArray as $rk) { ?>
+                        <h2><?= $rk["rank"] ?></h2>
+                    <?php } ?>
                 </div>
-                <div class="col-sm-8 ranking-players">
-                    <div class="ranking-card mt">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-file-person" viewBox="0 0 16 16">
-                            <path d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z" />
-                            <path d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                        </svg>
-                        <p>Guilherme Gritti</p>
-                    </div>
-                    <div class="ranking-card">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-file-person" viewBox="0 0 16 16">
-                            <path d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z" />
-                            <path d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                        </svg>
-                        <p>Laura Laurita</p>
-                    </div>
-                    <div class="ranking-card">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-file-person" viewBox="0 0 16 16">
-                            <path d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z" />
-                            <path d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                        </svg>
-                        <p>Big Bigão</p>
-                    </div>
-                    <div class="ranking-card">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-file-person" viewBox="0 0 16 16">
-                            <path d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z" />
-                            <path d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                        </svg>
-                        <p>Lorena Santos</p>
-                    </div>
-                    <div class="ranking-card">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-file-person" viewBox="0 0 16 16">
-                            <path d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z" />
-                            <path d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                        </svg>
-                        <p>Guilerme Palermo</p>
-                    </div>
+                <div class="col-sm-8 ranking-players mt">
+                    <?php foreach ($topRankingArray as $rk) { ?>
+                        <div class="ranking-card">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-file-person" viewBox="0 0 16 16">
+                                <path d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z" />
+                                <path d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                            </svg>
+                            <p><?= $rk["nickname"] ?> : <?= $rk["score"] ?> </p>
+                        </div>
+                    <?php } ?>
+                    <h3> <?= (count($topRankingArray)) == 0 ? 'Sem histórico de pontuação' : '' ?></h3>
+
                 </div>
             </div>
         </div>
