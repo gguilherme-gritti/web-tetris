@@ -29,7 +29,11 @@ $(document).ready(function () {
             dataType: "json",
             encode: true,
           })
-            .done(function (response) {})
+            .done(function (response) {
+              if (response.status === "success") {
+                window.location.href = "screens/game/game.php";
+              }
+            })
             .fail(function (error) {
               console.error(error);
             });

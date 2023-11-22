@@ -28,8 +28,8 @@ include '../../backend/valid_authentication.php';
         <div class="row h-100">
             <div class="col-md-10 p-0">
                 <ul class="navbar">
-                    <li><a href="../perfil/perfil">Perfil</a></li>
-                    <li><a href="../game/game">Jogar</a></li>
+                    <li><a href="../perfil/perfil.php">Perfil</a></li>
+                    <li><a href="../game/game.php">Jogar</a></li>
                     <li><a href="#">Ranking</a></li>
                 </ul>
             </div>

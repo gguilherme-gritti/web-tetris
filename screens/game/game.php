@@ -24,9 +24,9 @@ include '../../backend/valid_authentication.php';
         <div class="row h-100">
             <div class="col-md-10 p-0">
                 <ul class="navbar">
-                    <li><a href="../perfil/perfil">Perfil</a></li>
+                    <li><a href="../perfil/perfil.php">Perfil</a></li>
                     <li><a href="#">Jogar</a></li>
-                    <li><a href="../ranking/ranking">Ranking</a></li>
+                    <li><a href="../ranking/ranking.php">Ranking</a></li>
                 </ul>
             </div>
             <div class="col-md-2 off align-all-center">

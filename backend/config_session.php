@@ -1,13 +1,18 @@
 <?php
 
-$nickname = $_POST['nickname'];
-$id = $_POST['id'];
-
 session_start();
 
-$_SESSION['nickname'] = $nickname;
-$_SESSION['userId'] = $id;
+if (isset($_POST['nickname']) && $_POST['nickname']) {
 
+    $_SESSION['nickname'] = $_POST['nickname'];
+    $_SESSION['userId'] = $_POST['id'];
 
-header('Location: screens/game/game.php');
-exit();
+    $response['status'] = 'success';
+    $response['message'] = 'Usuário autenticado.';
+} else {
+    $response['status'] = 'error';
+    $response['message'] = 'Usuário não autenticado.';
+}
+
+header('Content-Type: application/json');
+echo json_encode($response);
