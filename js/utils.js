@@ -10,3 +10,12 @@ function formatDate(dataString) {
 
   return dataFormatada;
 }
+
+function reFormatDate(dataString) {
+  var componentes = dataString.split("/");
+
+  var dataFormatada =
+    componentes[2] + "-" + componentes[1] + "-" + componentes[0];
+
+  return dataFormatada;
+}

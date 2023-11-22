@@ -18,8 +18,17 @@ include '../../backend/valid_authentication.php';
 
     <link rel='stylesheet' type='text/css' media='screen' href='perfil.css'>
 
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- SWAL -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- BOOTSTRAP -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+    <script src="../../js/utils.js"></script>
+    <script src="./perfil.js"></script>
 
 </head>
 
@@ -40,35 +49,35 @@ include '../../backend/valid_authentication.php';
     </nav>
     <div class="container-sm perfil-container">
         <div class="perfil-content">
-            <form>
+            <form id="updatePlayer">
                 <h3>Meus dados cadastrais</h3>
                 <div class="row">
                     <div class="col">
                         <label class="input-label">Meu Ranking</label>
-                        <input class="input-main w-100" type="text" disabled placeholder="1">
+                        <input id="myRanking" class="input-main w-100" type="text" disabled placeholder="1">
                     </div>
                     <div class="col">
                         <label class="input-label">Meu Recorde</label>
-                        <input class="input-main w-100" type="text" disabled placeholder="2345">
+                        <input id="myHighScore" class="input-main w-100" type="text" disabled placeholder="2345">
                     </div>
                 </div>
                 <label class="input-label">Nome Completo</label>
-                <input class="input-main" type="text" placeholder="Phineas & Ferb">
+                <input id="completeName" class="input-main" type="text" placeholder="Phineas & Ferb">
 
                 <label class="input-label">Data de Nascimento</label>
-                <input class="input-main" type="date">
+                <input id="birthday" class="input-main" type="date">
 
                 <label class="input-label">Usuário/Username</label>
-                <input class="input-main" type="text" placeholder="KickButtowski">
+                <input id="nickname" class="input-main" type="text" placeholder="KickButtowski">
 
                 <label class="input-label">Senha</label>
-                <input class="input-main" type="password" placeholder="***********">
+                <input id="password" class="input-main" type="password" placeholder="***********">
 
                 <label class="input-label">Confirmar Senha</label>
-                <input class="input-main" type="password" placeholder="***********">
+                <input id="confirmPassword" class="input-main" type="password" placeholder="***********">
 
                 <label class="input-label">Sobre você:</label>
-                <textarea class="input-main" rows="5"> </textarea>
+                <textarea id="aboutMe" class="input-main" rows="5"> </textarea>
 
                 <button type="submit" class="standard-button mt-1">Atualizar Dados</button>
             </form>
