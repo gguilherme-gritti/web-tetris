@@ -42,7 +42,7 @@ include '../../backend/get_ranking.php';
                 </ul>
             </div>
             <div class="col-md-2 off align-all-center">
-                <a href="../../index.html">Sair</a>
+                <a href="../../backend/logout.php">Sair</a>
             </div>
         </div>
     </nav>
