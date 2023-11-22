@@ -30,6 +30,15 @@ $(document).ready(function () {
       encode: true,
     })
       .done(function (response) {
+        if (response.status === "warning") {
+          Swal.fire({
+            title: "Ops!",
+            text: response.message,
+            icon: "warning",
+          });
+          return;
+        }
+
         clearRegister();
         Swal.fire({
           title: "Sucesso!",
