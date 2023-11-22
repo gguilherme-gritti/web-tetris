@@ -1,10 +1,10 @@
 <?php
 include 'connection.php';
 
-$nickname = $_POST['nickname'];
+$user = $_POST['user'];
 $password = sha1($_POST['password']);
 
-$sql = "SELECT * FROM Player WHERE nickname = '$usuario' AND password = '$senha'";
+$sql = "SELECT * FROM Player WHERE nickname = '$user' AND password = '$password'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {

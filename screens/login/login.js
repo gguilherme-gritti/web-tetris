@@ -16,7 +16,23 @@ $(document).ready(function () {
     })
       .done(function (response) {
         if (response.status === "success") {
-          alert("Login bem-sucedido!");
+          Swal.fire({
+            title: "Sucesso!",
+            text: "Login Efetuado!",
+            icon: "success",
+          });
+
+          $.ajax({
+            type: "POST",
+            url: "backend/config_session.php",
+            data: response.userData,
+            dataType: "json",
+            encode: true,
+          })
+            .done(function (response) {})
+            .fail(function (error) {
+              console.error(error);
+            });
         } else {
           Swal.fire({
             title: "Oops!",
@@ -27,6 +43,7 @@ $(document).ready(function () {
       })
       .fail(function (error) {
         console.error(error);
+
         Swal.fire({
           title: "Falha!",
           text: "Tivemos um problema ao tentar realizar o login",
