@@ -1,6 +1,8 @@
 <?php
 include 'connection.php';
 
+$topRankingArray = array();
+
 $sql = "WITH RankedHistoric AS (
         SELECT
             idPlayer,
@@ -26,7 +28,6 @@ $sql = "WITH RankedHistoric AS (
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-    $topRankingArray = array();
 
     while ($row = $result->fetch_assoc()) {
         $topRankingArray[] = $row;
